@@ -38,21 +38,17 @@
 
     <!-- Dashboard Content -->
     <main class="max-w-7xl mx-auto px-4 py-8 w-full flex-grow">
-        
-        <!-- Controls Bar -->
         <div class="bg-white p-4 rounded-2xl shadow-md mb-6 flex flex-wrap items-center justify-between gap-4">
             <div class="flex items-center space-x-2">
                 <span class="font-bold text-maroon-900 text-lg"><i class="fa-solid fa-users mr-2"></i> एकूण नोंदणी: <span id="total_count">0</span></span>
             </div>
             <div class="flex flex-wrap items-center gap-3">
                 <input type="text" id="search_query" onkeyup="loadAdminDashboard()" placeholder="नाव किंवा मोबाईल शोधा..." class="px-3 py-2 border rounded-xl text-xs focus:ring-2 focus:ring-maroon-700 outline-none">
-                
                 <select id="sort_by" onchange="loadAdminDashboard()" class="px-3 py-2 border rounded-xl text-xs font-semibold bg-gray-50">
                     <option value="newest">Sort: नवीन आधी (Newest)</option>
                     <option value="name">Sort: नाव (Name A-Z)</option>
                     <option value="dob">Sort: वय/जन्मतारीख (DOB)</option>
                 </select>
-
                 <select id="filter_gender" onchange="loadAdminDashboard()" class="px-3 py-2 border rounded-xl text-xs font-semibold bg-gray-50">
                     <option value="">सर्व लिंग (All Genders)</option>
                     <option value="पुरुष">पुरुष</option>
@@ -73,7 +69,7 @@
                             <th class="p-4">मोबाइल (Mobile)</th>
                             <th class="p-4">लिंग / रक्तगट</th>
                             <th class="p-4">जिल्हा / तालुका</th>
-                            <th class="p-4">ओळखपत्र (ID Proof)</th>
+                            <th class="p-4">ओळखपत्र (ID Proof & Doc)</th>
                             <th class="p-4">नोंदणी तारीख</th>
                         </tr>
                     </thead>
@@ -105,27 +101,15 @@
 
             let query = supabaseClient.from('members').select('*', { count: 'exact' });
 
-            if(filterGender) {
-                query = query.eq('gender', filterGender);
-            }
+            if(filterGender) query = query.eq('gender', filterGender);
+            if(searchQuery) query = query.or(`full_name.ilike.%${searchQuery}%,mobile_number.ilike.%${searchQuery}%`);
 
-            if(searchQuery) {
-                query = query.or(`full_name.ilike.%${searchQuery}%,mobile_number.ilike.%${searchQuery}%`);
-            }
+            if(sortBy === 'name') query = query.order('full_name', { ascending: true });
+            else if(sortBy === 'dob') query = query.order('dob', { ascending: false });
+            else query = query.order('created_at', { ascending: false });
 
-            if(sortBy === 'name') {
-                query = query.order('full_name', { ascending: true });
-            } else if(sortBy === 'dob') {
-                query = query.order('dob', { ascending: false });
-            } else {
-                query = query.order('created_at', { ascending: false });
-            }
-
-            const { data, count, error } = await query;
-            
-            if(count !== null) {
-                document.getElementById('total_count').innerText = count;
-            }
+            const { data, count } = await query;
+            if(count !== null) document.getElementById('total_count').innerText = count;
 
             const tbody = document.getElementById('admin-table-body');
             tbody.innerHTML = '';
@@ -133,6 +117,8 @@
             if(data && data.length > 0) {
                 data.forEach(m => {
                     const dateStr = new Date(m.created_at).toLocaleDateString('en-IN');
+                    const docLink = m.id_proof_url ? `<a href="${m.id_proof_url}" target="_blank" class="text-blue-600 underline hover:text-blue-800 font-semibold"><i class="fa-solid fa-file-image mr-1"></i> View Doc</a>` : '<span class="text-gray-400">No Doc</span>';
+                    
                     tbody.innerHTML += `
                         <tr class="hover:bg-gray-50">
                             <td class="p-3">
@@ -142,7 +128,10 @@
                             <td class="p-3">${m.mobile_number}</td>
                             <td class="p-3">${m.gender} / <span class="text-red-600 font-bold">${m.blood_group || 'N/A'}</span></td>
                             <td class="p-3">${m.district}, ${m.taluka}</td>
-                            <td class="p-3 text-xs"><span class="bg-amber-100 text-amber-800 px-2 py-1 rounded font-medium">${m.id_proof_type}: ${m.id_proof_number}</span></td>
+                            <td class="p-3 text-xs">
+                                <span class="bg-amber-100 text-amber-800 px-2 py-1 rounded font-medium block mb-1">${m.id_proof_type}: ${m.id_proof_number}</span>
+                                ${docLink}
+                            </td>
                             <td class="p-3 text-xs text-gray-500">${dateStr}</td>
                         </tr>
                     `;
