@@ -162,16 +162,18 @@
 
                 <form id="member-form" onsubmit="submitMemberForm(event)" class="space-y-4 sm:space-y-6">
                     <div class="bg-maroon-900 text-white px-4 py-3 rounded-xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-                        <h4 class="font-bold text-sm sm:text-base"><i class="fa-solid fa-id-card mr-2"></i> वैयक्तिक व कागदपत्र माहिती</h4>
+                        <h4 class="font-bold text-sm sm:text-base"><i class="fa-solid fa-id-card mr-2"></i> वैयक्तिक व सविस्तर माहिती</h4>
                         <span id="active-mobile-badge" class="bg-yellow-500 text-maroon-900 font-bold text-xs px-2.5 py-1 rounded-full"></span>
                     </div>
 
                     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 sm:gap-6">
+                        <!-- Full Name -->
                         <div class="sm:col-span-2 md:col-span-3">
                             <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">पूर्ण नाव / Full Name *</label>
                             <input type="text" id="full_name" required placeholder="आपले पूर्ण नाव प्रविष्ट करा" class="w-full px-3 sm:px-4 py-2.5 border rounded-xl outline-none focus:ring-2 focus:ring-maroon-700 text-sm">
                         </div>
 
+                        <!-- Gender -->
                         <div>
                             <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">लिंग / Gender *</label>
                             <select id="gender" required class="w-full px-3 sm:px-4 py-2.5 border rounded-xl bg-white text-sm">
@@ -182,11 +184,13 @@
                             </select>
                         </div>
 
+                        <!-- DOB -->
                         <div>
                             <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">जन्मतारीख / DOB *</label>
                             <input type="date" id="dob" required class="w-full px-3 sm:px-4 py-2.5 border rounded-xl text-sm">
                         </div>
 
+                        <!-- Blood Group -->
                         <div>
                             <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">रक्तगट / Blood Group *</label>
                             <select id="blood_group" required class="w-full px-3 sm:px-4 py-2.5 border rounded-xl bg-white text-sm">
@@ -199,6 +203,7 @@
                             </select>
                         </div>
 
+                        <!-- State -->
                         <div>
                             <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">राज्य / State *</label>
                             <select id="state" required class="w-full px-3 sm:px-4 py-2.5 border rounded-xl bg-white text-sm">
@@ -206,30 +211,133 @@
                                 <option value="Karnataka">Karnataka</option>
                                 <option value="Telangana">Telangana</option>
                                 <option value="Andhra Pradesh">Andhra Pradesh</option>
+                                <option value="Madhya Pradesh">Madhya Pradesh</option>
                                 <option value="Other">Other</option>
                             </select>
                         </div>
 
+                        <!-- District -->
                         <div>
                             <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">जिल्हा / District *</label>
                             <input type="text" id="district" required placeholder="उदा. यवतमाळ" class="w-full px-3 sm:px-4 py-2.5 border rounded-xl text-sm">
                         </div>
 
+                        <!-- Taluka -->
                         <div>
                             <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">तालुका / Taluka *</label>
                             <input type="text" id="taluka" required placeholder="तालुका" class="w-full px-3 sm:px-4 py-2.5 border rounded-xl text-sm">
                         </div>
 
+                        <!-- Village -->
                         <div>
                             <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">गाव / Village *</label>
                             <input type="text" id="village" required placeholder="गाव" class="w-full px-3 sm:px-4 py-2.5 border rounded-xl text-sm">
                         </div>
 
+                        <!-- Address -->
                         <div class="sm:col-span-2">
                             <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">सध्याचा पत्ता / Address *</label>
                             <textarea id="address" rows="2" required placeholder="तपशीलवार पत्ता" class="w-full px-3 sm:px-4 py-2 border rounded-xl text-sm"></textarea>
                         </div>
 
+                        <!-- Educational Qualification -->
+                        <div>
+                            <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">शैक्षणिक पात्रता</label>
+                            <select id="education" class="w-full px-3 sm:px-4 py-2.5 border rounded-xl bg-white text-sm">
+                                <option value="">शैक्षणिक पात्रता निवडा</option>
+                                <option value="निरक्षर">निरक्षर</option>
+                                <option value="प्राथमिक">प्राथमिक</option>
+                                <option value="माध्यमिक">माध्यमिक</option>
+                                <option value="उच्च माध्यमिक">उच्च माध्यमिक</option>
+                                <option value="पदवीधर">पदवीधर (Graduate)</option>
+                                <option value="पदव्युत्तर">पदव्युत्तर (Post Graduate)</option>
+                                <option value="आय.टी.आय">आय.टी.आय (ITI)</option>
+                                <option value="पदविका">पदविका (Diploma)</option>
+                                <option value="डॉक्टरेट">डॉक्टरेट (PhD)</option>
+                                <option value="इतर">इतर</option>
+                            </select>
+                        </div>
+
+                        <!-- Educational Details -->
+                        <div>
+                            <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">शैक्षणिक पात्रतेचा तपशील</label>
+                            <input type="text" id="education_details" placeholder="उदा. B.Sc (Maths)" class="w-full px-3 sm:px-4 py-2.5 border rounded-xl text-sm">
+                        </div>
+
+                        <!-- Occupation Type -->
+                        <div>
+                            <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">व्यवसाय प्रकार</label>
+                            <select id="occupation" class="w-full px-3 sm:px-4 py-2.5 border rounded-xl bg-white text-sm">
+                                <option value="">व्यवसाय प्रकार निवडा</option>
+                                <option value="शेतकरी">शेतकरी</option>
+                                <option value="पोलीस">पोलीस</option>
+                                <option value="चालक">चालक</option>
+                                <option value="व्यावसायिक">व्यावसायिक</option>
+                                <option value="व्यापार">व्यापार</option>
+                                <option value="शासकीय अधिकारी">शासकीय अधिकारी</option>
+                                <option value="शासकीय कर्मचारी">शासकीय कर्मचारी</option>
+                                <option value="बँकर">बँकर</option>
+                                <option value="डॉक्टर">डॉक्टर</option>
+                                <option value="वकील / न्यायव्यवस्था">वकील / न्यायव्यवस्था</option>
+                                <option value="अभियंता">अभियंता (Engineer)</option>
+                                <option value="प्राध्यापक">प्राध्यापक</option>
+                                <option value="शिक्षक">शिक्षक</option>
+                                <option value="खासगी क्षेत्र कर्मचारी / अधिकारी">खासगी क्षेत्र कर्मचारी / अधिकारी</option>
+                                <option value="विद्यार्थी">विद्यार्थी</option>
+                                <option value="बेरोजगार">बेरोजगार</option>
+                                <option value="ऊसतोड कामगार">ऊसतोड कामगार</option>
+                                <option value="बांधकाम मजूर">बांधकाम मजूर</option>
+                                <option value="कलाकार">कलाकार</option>
+                                <option value="साहित्यिक">साहित्यिक</option>
+                                <option value="चार्टर्ड अकाउंटंट">चार्टर्ड अकाउंटंट</option>
+                                <option value="गृहिणी">गृहिणी</option>
+                                <option value="शासकीय कंत्राटदार">शासकीय कंत्राटदार</option>
+                                <option value="सेवानिवृत्त शासकीय अधिकारी">सेवानिवृत्त शासकीय अधिकारी</option>
+                                <option value="सेवानिवृत्त शासकीय कर्मचारी">सेवानिवृत्त शासकीय कर्मचारी</option>
+                                <option value="सामाजिक कार्यकर्ता">सामाजिक कार्यकर्ता</option>
+                                <option value="पत्रकार">पत्रकार</option>
+                                <option value="इतर">इतर</option>
+                            </select>
+                        </div>
+
+                        <!-- Cultural Background -->
+                        <div>
+                            <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">पारंपरिक लोककलेची पार्श्वभूमी</label>
+                            <select id="cultural_background" class="w-full px-3 sm:px-4 py-2.5 border rounded-xl bg-white text-sm">
+                                <option value="नाही">नाही</option>
+                                <option value="रिल स्टार / सोशल मिडिया इन्फ्लुएन्सर">रिल स्टार / सोशल मिडिया इन्फ्लुएन्सर</option>
+                                <option value="डफ वादक">डफ वादक</option>
+                                <option value="नंगारा वादक">नंगारा वादक</option>
+                                <option value="लेखक / कवी / गीतकार">लेखक / कवी / गीतकार</option>
+                                <option value="झिलकरी-भजन">झिलकरी-भजन</option>
+                                <option value="लेंगी-गायन व नृत्य">लेंगी-गायन व नृत्य</option>
+                                <option value="कीर्तनकार">कीर्तनकार</option>
+                                <option value="प्रवचनकार">प्रवचनकार</option>
+                                <option value="कथाकार">कथाकार</option>
+                                <option value="तीर्थक्षेत्र / मंदिर भगत">तीर्थक्षेत्र / मंदिर भगत</option>
+                                <option value="ढावलो / फाग गायन">ढावलो / फाग गायन</option>
+                                <option value="साखी कथन">साखी कथन</option>
+                                <option value="इतर">इतर</option>
+                            </select>
+                        </div>
+
+                        <!-- Political Background -->
+                        <div>
+                            <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">राजकीय पार्श्वभूमी</label>
+                            <select id="political_background" class="w-full px-3 sm:px-4 py-2.5 border rounded-xl bg-white text-sm">
+                                <option value="नाही">नाही</option>
+                                <option value="ग्रा.पं. सदस्य">ग्रा.पं. सदस्य</option>
+                                <option value="ग्रा.पं. सरपंच">ग्रा.पं. सरपंच</option>
+                                <option value="पं.स. सदस्य">पं.स. सदस्य</option>
+                                <option value="जि.प. सदस्य">जि.प. सदस्य</option>
+                                <option value="नगरसेवक">नगरसेवक</option>
+                                <option value="आमदार">आमदार</option>
+                                <option value="खासदार">खासदार</option>
+                                <option value="इतर">इतर</option>
+                            </select>
+                        </div>
+
+                        <!-- ID Proof Type & Number -->
                         <div>
                             <label class="block text-xs sm:text-sm font-semibold text-maroon-800 mb-1">ओळखपत्र प्रकार *</label>
                             <select id="id_proof_type" required class="w-full px-3 sm:px-4 py-2.5 border-2 border-amber-500 rounded-xl bg-amber-50 font-medium text-sm">
@@ -243,11 +351,13 @@
                             <input type="text" id="id_proof_number" required placeholder="क्रमांक प्रविष्ट करा" class="w-full px-3 sm:px-4 py-2.5 border-2 border-amber-500 rounded-xl bg-amber-50 text-sm">
                         </div>
 
+                        <!-- ID Proof Document Upload -->
                         <div class="sm:col-span-2 md:col-span-3 bg-amber-50/70 p-3 sm:p-4 rounded-xl border-2 border-dashed border-amber-400">
                             <label class="block text-xs sm:text-sm font-semibold text-maroon-900 mb-2"><i class="fa-solid fa-file-arrow-up mr-1"></i> ओळखपत्र कागदपत्र अपलोड (Aadhaar/Birth Certificate Doc) *</label>
                             <input type="file" id="id_proof_file" accept="image/*,application/pdf" required class="w-full text-xs text-gray-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-amber-600 file:text-white cursor-pointer">
                         </div>
 
+                        <!-- Differently Abled -->
                         <div>
                             <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-1">दिव्यांग आहात का? *</label>
                             <select id="differently_abled" required class="w-full px-3 sm:px-4 py-2.5 border rounded-xl bg-white text-sm">
@@ -255,14 +365,16 @@
                             </select>
                         </div>
 
+                        <!-- Profile Photo Upload -->
                         <div class="sm:col-span-2 bg-gray-50 p-3 sm:p-4 rounded-xl border">
                             <label class="block text-xs sm:text-sm font-semibold text-gray-700 mb-2"><i class="fa-solid fa-camera mr-1"></i> स्वतःचा फोटो अपलोड / Profile Photo *</label>
                             <input type="file" id="photo_file" accept="image/*" required class="w-full text-xs text-gray-500 file:mr-2 file:py-1.5 file:px-3 file:rounded-lg file:border-0 file:text-xs file:font-semibold file:bg-maroon-900 file:text-white cursor-pointer">
                         </div>
                     </div>
 
-                    <div class="pt-4 border-t flex justify-end">
-                        <button type="submit" class="w-full sm:w-auto bg-maroon-900 hover:bg-maroon-800 text-yellow-300 font-bold py-3 px-8 rounded-xl shadow-xl transition flex items-center justify-center space-x-2 text-sm">
+                    <!-- Submit Button with proper spacing -->
+                    <div class="pt-6 mt-4 border-t flex justify-end pb-4">
+                        <button type="submit" class="w-full sm:w-auto bg-maroon-900 hover:bg-maroon-800 text-yellow-300 font-bold py-3.5 px-8 rounded-xl shadow-xl transition flex items-center justify-center space-x-2 text-base">
                             <i class="fa-solid fa-check-circle"></i>
                             <span>माहिती सबमिट करा / Submit</span>
                         </button>
@@ -362,7 +474,7 @@
                         <div class="bg-white p-3 rounded-lg border border-amber-200 shadow-sm flex items-center justify-between">
                             <div>
                                 <h5 class="font-bold text-maroon-900 text-xs sm:text-sm">${member.full_name}</h5>
-                                <p class="text-[10px] sm:text-xs text-gray-500">लिंग: ${member.gender} | रक्तगट: ${member.blood_group || 'N/A'}</p>
+                                <p class="text-[10px] sm:text-xs text-gray-500">व्यवसाय: ${member.occupation || 'N/A'} | रक्तगट: ${member.blood_group || 'N/A'}</p>
                             </div>
                             <span class="text-[10px] bg-green-100 text-green-800 font-semibold px-2 py-0.5 rounded">Registered</span>
                         </div>
@@ -415,6 +527,11 @@
                 taluka: document.getElementById('taluka').value,
                 village: document.getElementById('village').value,
                 address: document.getElementById('address').value,
+                education: document.getElementById('education').value,
+                education_details: document.getElementById('education_details').value,
+                occupation: document.getElementById('occupation').value,
+                cultural_background: document.getElementById('cultural_background').value,
+                political_background: document.getElementById('political_background').value,
                 id_proof_type: document.getElementById('id_proof_type').value,
                 id_proof_number: document.getElementById('id_proof_number').value,
                 id_proof_url: idProofUrl,
