@@ -110,7 +110,7 @@
                 <!-- Registration Form -->
                 <form id="member-form" onsubmit="submitMemberForm(event)" class="space-y-6">
                     <div class="bg-maroon-900 text-white px-4 py-3 rounded-xl flex justify-between items-center">
-                        <h4 class="font-bold text-lg"><i class="fa-solid fa-id-card mr-2"></i> वैयक्तिक माहिती (Personal Information)</h4>
+                        <h4 class="font-bold text-lg"><i class="fa-solid fa-id-card mr-2"></i> वैयक्तिक व कागदपत्र माहिती (Personal & ID Details)</h4>
                         <span id="active-mobile-badge" class="bg-yellow-500 text-maroon-900 font-bold text-xs px-2.5 py-1 rounded-full"></span>
                     </div>
 
@@ -179,7 +179,7 @@
                             <textarea id="address" rows="2" required placeholder="तपशीलवार पत्ता" class="w-full px-4 py-2 border border-gray-300 rounded-xl"></textarea>
                         </div>
 
-                        <!-- MANDATORY ID PROOF -->
+                        <!-- ID PROOF TYPE & NUMBER -->
                         <div>
                             <label class="block text-sm font-semibold text-maroon-800 mb-1">ओळखपत्र प्रकार (Mandatory) *</label>
                             <select id="id_proof_type" required class="w-full px-4 py-2.5 border-2 border-amber-500 rounded-xl bg-amber-50 font-medium">
@@ -193,6 +193,13 @@
                             <input type="text" id="id_proof_number" required placeholder="आधार क्रमांक किंवा जन्म दाखला क्रमांक" class="w-full px-4 py-2.5 border-2 border-amber-500 rounded-xl bg-amber-50">
                         </div>
 
+                        <!-- ID PROOF DOCUMENT UPLOAD (New Addition) -->
+                        <div class="md:col-span-3 bg-amber-50/70 p-4 rounded-xl border-2 border-dashed border-amber-400">
+                            <label class="block text-sm font-semibold text-maroon-900 mb-2"><i class="fa-solid fa-file-arrow-up mr-1"></i> ओळखपत्र कागदपत्र अपलोड (Aadhaar / Birth Certificate Document Image) *</label>
+                            <input type="file" id="id_proof_file" accept="image/*,application/pdf" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-amber-600 file:text-white hover:file:bg-amber-700 cursor-pointer">
+                            <p class="text-xs text-gray-600 mt-1">कृपया आपल्या निवडलेल्या ओळखपत्राचा स्पष्ट फोटो किंवा स्कॅन (JPG/PNG/PDF) अपलोड करा.</p>
+                        </div>
+
                         <div>
                             <label class="block text-sm font-semibold text-gray-700 mb-1">दिव्यांग आहात का? *</label>
                             <select id="differently_abled" required class="w-full px-4 py-2.5 border border-gray-300 rounded-xl bg-white">
@@ -200,10 +207,10 @@
                             </select>
                         </div>
 
-                        <!-- Photo Upload to Supabase Storage Bucket -->
-                        <div class="md:col-span-3 bg-gray-50 p-4 rounded-xl border border-gray-200">
-                            <label class="block text-sm font-semibold text-gray-700 mb-2"><i class="fa-solid fa-camera mr-1"></i> फोटो अपलोड / Photo Upload</label>
-                            <input type="file" id="photo_file" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-maroon-800 file:text-white hover:file:bg-maroon-950 cursor-pointer">
+                        <!-- Profile Photo Upload -->
+                        <div class="md:col-span-2 bg-gray-50 p-4 rounded-xl border border-gray-200">
+                            <label class="block text-sm font-semibold text-gray-700 mb-2"><i class="fa-solid fa-camera mr-1"></i> स्वतःचा फोटो अपलोड / Profile Photo Upload *</label>
+                            <input type="file" id="photo_file" accept="image/*" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-sm file:font-semibold file:bg-maroon-800 file:text-white hover:file:bg-maroon-950 cursor-pointer">
                             <p class="text-xs text-gray-500 mt-1">चेहरा स्पष्ट दिसेल असा अलीकडील फोटो असावा.</p>
                         </div>
                     </div>
@@ -318,13 +325,17 @@
 
         async function submitMemberForm(e) {
             e.preventDefault();
+            
             const photoFile = document.getElementById('photo_file').files[0];
-            let photoUrl = 'https://via.placeholder.com/150';
+            const idProofFile = document.getElementById('id_proof_file').files[0];
+            
+            let photoUrl = '';
+            let idProofUrl = '';
 
-            // Upload photo to Supabase Storage bucket 'member-assets'
+            // 1. Upload Profile Photo to Supabase Storage
             if(photoFile) {
-                const fileName = `${Date.now()}_${photoFile.name}`;
-                const { data: uploadData, error: uploadError } = await supabaseClient.storage
+                const fileName = `profile_${Date.now()}_${photoFile.name}`;
+                const { error: uploadError } = await supabaseClient.storage
                     .from('member-assets')
                     .upload(fileName, photoFile);
 
@@ -333,6 +344,21 @@
                         .from('member-assets')
                         .getPublicUrl(fileName);
                     photoUrl = publicUrlData.publicUrl;
+                }
+            }
+
+            // 2. Upload ID Proof Document to Supabase Storage
+            if(idProofFile) {
+                const docName = `idproof_${Date.now()}_${idProofFile.name}`;
+                const { error: docUploadError } = await supabaseClient.storage
+                    .from('member-assets')
+                    .upload(docName, idProofFile);
+
+                if(!docUploadError) {
+                    const { data: docUrlData } = supabaseClient.storage
+                        .from('member-assets')
+                        .getPublicUrl(docName);
+                    idProofUrl = docUrlData.publicUrl;
                 }
             }
 
@@ -349,6 +375,7 @@
                 address: document.getElementById('address').value,
                 id_proof_type: document.getElementById('id_proof_type').value,
                 id_proof_number: document.getElementById('id_proof_number').value,
+                id_proof_url: idProofUrl,
                 differently_abled: document.getElementById('differently_abled').value,
                 photo_url: photoUrl
             };
